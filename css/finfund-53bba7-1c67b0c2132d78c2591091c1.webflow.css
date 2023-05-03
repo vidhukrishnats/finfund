@@ -76,7 +76,11 @@ p {
   font-size: 25px;
   line-height: 1.5;
   font-weight: 400;
+  text-align: center;
+  margin-bottom: 20px;
 }
+
+
 
 .paragraph-1.is--hero {
   max-width: 80%;
@@ -324,8 +328,16 @@ p {
 }
 
 .grid-item {
+  width: 550px;
+  height: 550px;
   border-radius: 30px;
   background-color: rgba(0, 63, 60, 0.1);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 55px;
+  margin: auto;
+  
 }
 
 .grid-item.is--funds {
@@ -503,6 +515,8 @@ p {
 }
 
 .text-field.is--doc {
+  display: flex;
+  align-items: center;
   height: 180px;
   text-align: center;
 }
@@ -693,6 +707,11 @@ p {
     grid-template-columns: 1fr 1fr;
     -ms-grid-rows: auto auto;
     grid-template-rows: auto auto;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    
+    
   }
 
   .container-2 {

@@ -69,20 +69,29 @@
         <div class="form">
           <div class="w-form">
             <form id="email-form" name="email-form" data-name="Email Form" method="get">
-              <div class="formfieldwrap"><label for="name-2" class="paragraph-1">Enter your <span class="formspan">Name</span> <span class="dullspan">(As per Government ID)</span></label><input type="text" class="text-field w-input" maxlength="256" name="name-2" data-name="Name 2" placeholder="Enter your Name" id="name-2"><label for="field" class="paragraph-1">Select the <span class="formspan">Fund Scheme</span></label><select id="field" name="field" data-name="Field" class="select-field w-select">
+              <div class="formfieldwrap">
+                <label for="name-2" class="paragraph-1">Enter your <span class="formspan">Name</span> <span class="dullspan">(As per Government ID)</span></label>
+                <input type="text" class="text-field w-input" maxlength="256" name="name-2" data-name="Name 2" placeholder="Enter your Name" id="name-2">
+                <label for="field" class="paragraph-1">Select the <span class="formspan">Fund Scheme</span></label>
+                <select id="select_scheme" name="field" data-name="Field" class="select-field w-select">
                   <option value="">Select the Fund Scheme</option>
                   <option value="First">First choice</option>
                   <option value="Second">Second choice</option>
                   <option value="Third">Third choice</option>
-                </select><label for="name" class="paragraph-1">Upload <span class="formspan">Documents</span></label><input type="text" class="text-field is--doc w-input" maxlength="256" name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="name"><label for="name-2" class="paragraph-1">Enter the <span class="formspan">Fund Required</span></label><input type="text" class="text-field w-input" maxlength="256" name="name-2" data-name="Name 2" placeholder="eg:- 4,00,000 Rs." id="name-2"></div>
+                </select>
+                <label for="name" class="paragraph-1">Upload <span class="formspan">Documents</span></label>
+                <div class="text-field is--doc w-input">
+                  <input type="file"   name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="name">
+                  <input type="file"   name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="name">
+                  <input type="file"   name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="name">
+                 </div>
+                
+                <label for="name-2" class="paragraph-1">Enter the <span class="formspan">Fund Required</span></label>
+                <input type="text" class="text-field w-input" maxlength="256" name="name-2" data-name="Name 2" placeholder="eg:- 4,00,000 Rs." id="name-2">
+              </div>
               <div class="formbuttonwrap"><input type="submit" value="Request" data-wait="Please wait..." class="form-button is--submit w-button"><input type="submit" value="Reset" data-wait="Please wait..." class="form-button is--reset w-button"></div>
             </form>
-            <div class="w-form-done">
-              <div>Thank you! Your submission has been received!</div>
-            </div>
-            <div class="w-form-fail">
-              <div>Oops! Something went wrong while submitting the form.</div>
-            </div>
+            
           </div>
         </div>
       </div>
@@ -138,7 +147,7 @@
   //import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-  import { getDatabase } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  import { getDatabase, set, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
 
@@ -187,6 +196,34 @@ logoutBtn.addEventListener('click', function() {
     console.log(error);
   });
 });
+
+const schemesRef = ref(database, "schemes");
+
+onValue(schemesRef, (snapshot) => {
+  const schemes = snapshot.val();
+
+  // Clear the card container
+  var select = document.getElementById("select_scheme");
+
+  // Remove any existing <option> elements
+  select.innerHTML = "";
+
+  var defaultOption = document.createElement("option");
+  defaultOption.value = "";
+  defaultOption.text = "Select the Fund Scheme";
+  select.appendChild(defaultOption);
+
+  // Add an <option> element for each scheme name
+  for (const schemeKey in schemes) {
+    const schemeName = schemes[schemeKey].name;
+    var option = document.createElement("option");
+    option.value = schemeKey;
+    option.text = schemeName;
+    select.appendChild(option);
+  }
+});
+
+
 
 </script>
 

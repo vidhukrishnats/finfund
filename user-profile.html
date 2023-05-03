@@ -66,8 +66,8 @@
   <div class="section is--funds wf-section">
     <div class="container w-container">
       <div class="fundwrap">
-        <div class="w-layout-grid grid-2">
-          <div id="w-node-_7462a428-9cf0-9ea8-ef6a-8b9af87205d3-1ea8c77c" class="grid-item is--funds">
+        <div class="w-layout-grid grid-2" id="grid">
+          <!-- <div id="w-node-_7462a428-9cf0-9ea8-ef6a-8b9af87205d3-1ea8c77c" class="grid-item is--funds">
             <div class="grid-content is--top">
               <h1 class="heading-2 is--funds">Scholarship</h1>
               <p class="paragraph-1">We provide financial assistance to economically underprivileged students. Highlights: Donation Option Available, Volunteering Option Available.</p>
@@ -101,7 +101,7 @@
             </div>
             <div class="grid-content is--bottom">
               <a href="funds.html" class="button is--1 is--funds w-button">Request Funds &gt;</a>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -153,7 +153,7 @@
 <script type="module">
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-  import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  import { getDatabase, set, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
   import { getAuth, onAuthStateChanged, signOut} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
 
@@ -218,5 +218,39 @@ logoutBtn.addEventListener('click', function() {
     console.log(error);
   });
 });
-  </script>
+
+// Retrieve data from Firebase and display it as cards
+const schemesRef = ref(database, "schemes");
+onValue(schemesRef, (snapshot) => {
+  const schemes = snapshot.val();
+
+  // Clear the card container
+  document.querySelector('#grid').innerHTML = '';
+
+  // Loop through the schemes and create cards for each one
+  for (var key in schemes) {
+    if (schemes.hasOwnProperty(key)) {
+      var scheme = schemes[key];
+      
+      // Create a new HTML element for the card
+      var gridItem = document.createElement('div');
+      gridItem.classList.add('grid-item');
+      
+      // Set the content of the card
+      gridItem.innerHTML = `
+        <h1 class="heading-2 is--funds">${scheme.name}</h1>
+        <p class="paragraph-1">${scheme.description}</p>
+        <a href="funds.html" class="button is--1 is--funds w-button">Request Funds &gt;</a>
+        
+      `;
+      
+      // Add the card to the card container
+      document.querySelector('#grid').appendChild(gridItem);
+    }
+  }
+});
+
+
+</script>
+
 </html>
