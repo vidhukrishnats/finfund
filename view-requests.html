@@ -69,8 +69,8 @@
         <h1 class="heading-1">Requests</h1>
         <p class="paragraph-1 is--hero">Select a request below to approve funds.</p>
       </div>
-      <div class="fundwrap is--admin">
-        <div class="fund">
+      <div class="fundwrap is--admin" id="fundwrap">
+        <div class="fund-requests">
           <div class="contentwrap"></div>
           <div class="headwrap is--adminfunds">
             <p class="paragraph-1 is--funds">
@@ -87,7 +87,7 @@
             </div>
           </div>
         </div>
-        <div class="fund">
+        <div class="fund-requests">
           <div class="contentwrap"></div>
           <div class="headwrap is--adminfunds">
             <p class="paragraph-1 is--funds">
@@ -104,7 +104,7 @@
             </div>
           </div>
         </div>
-        <div class="fund">
+        <div class="fund-requests">
           <div class="contentwrap"></div>
           <div class="headwrap is--adminfunds">
             <p class="paragraph-1 is--funds">
@@ -121,7 +121,7 @@
             </div>
           </div>
         </div>
-        <div class="fund">
+        <div class="fund-requests">
           <div class="contentwrap"></div>
           <div class="headwrap is--adminfunds">
             <p class="paragraph-1 is--funds">
@@ -191,7 +191,7 @@
   //import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-  import { getDatabase } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
 
@@ -241,7 +241,60 @@ logoutBtn.addEventListener('click', function() {
   });
 });
 
+// Retrieve data from Firebase and display it as cards
+const requestsRef = ref(database, "requests");
+onValue(requestsRef, (snapshot) => {
+  const requests = snapshot.val();
 
+  // Clear the card container
+  document.querySelector('#fundwrap').innerHTML = '';
+
+  // Loop through the schemes and create cards for each one
+  for (var key in requests) {
+    if (requests.hasOwnProperty(key)) {
+      var request = requests[key];
+      
+      // Create a new HTML element for the card
+      var requestcard = document.createElement('div');
+      requestcard.classList.add('fund-requests');
+      
+      // // Set the content of the card
+      // card.innerHTML = `
+      //   <h1 class="heading-2 is--funds">${scheme.name}</h1>
+      //   <p class="paragraph-1 is--funds">${scheme.description}</p>
+      //   <p class="paragraph-1 is--funds">Amount: ${scheme.amount}</p>
+      // `;
+
+      // Set the content of the card
+      requestcard.innerHTML = `
+      <div class="contentwrap"></div>
+          <div class="headwrap is--adminfunds">
+            <p class="paragraph-1 is--funds">
+              <a href="#" class="inlink">${request.scheme}</a>
+            </p>
+            <h1 class="heading-2 is--funds">${request.name}</h1>
+
+            <p class="paragraph-1 is--hero"><span class="greenspan">E-mail of the individual </span>: ${request.userEmail}</p>
+            
+            <p class="paragraph-1 is--hero"><span class="greenspan">Requested Amount </span>: ${request.fundAmount}</p>
+
+            <p class="paragraph-1 is--funds">
+              <a href="${request.document1Url}" class="inlink">View Document1</a>
+              <a href="${request.document2Url}" class="inlink">View Document2</a>
+              <a href="${request.document3Url}" class="inlink">View Document3</a>
+            </p>
+            <div class="buttonwrap is--adminfund">
+              <a href="#" class="button is--1 w-button">Accept Request</a>
+              <a href="#" class="button is--1 is--reject w-button">Reject Request</a>
+            </div>
+          </div>
+      `;
+      
+      // Add the card to the card container
+      document.querySelector('#fundwrap').appendChild(requestcard);
+    }
+  }
+});
 
 </script>
 </html>

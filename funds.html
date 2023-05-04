@@ -68,30 +68,32 @@
       <div class="formwrap">
         <div class="form">
           <div class="w-form">
-            <form id="email-form" name="email-form" data-name="Email Form" method="get">
+            <form id="fund-request-form" method="get">
               <div class="formfieldwrap">
-                <label for="name-2" class="paragraph-1">Enter your <span class="formspan">Name</span> <span class="dullspan">(As per Government ID)</span></label>
-                <input type="text" class="text-field w-input" maxlength="256" name="name-2" data-name="Name 2" placeholder="Enter your Name" id="name-2">
+                <label for="name" class="paragraph-1">Enter your <span class="formspan">Name</span> <span class="dullspan">(As per Government ID)</span></label>
+                <input type="text" id="name" class="text-field w-input" maxlength="256" name="name-2" data-name="Name 2" placeholder="Enter your Name" required>
                 <label for="field" class="paragraph-1">Select the <span class="formspan">Fund Scheme</span></label>
-                <select id="select_scheme" name="field" data-name="Field" class="select-field w-select">
+                <select id="select_scheme" name="field" data-name="Field" class="select-field w-select" required>
                   <option value="">Select the Fund Scheme</option>
                   <option value="First">First choice</option>
                   <option value="Second">Second choice</option>
                   <option value="Third">Third choice</option>
                 </select>
-                <label for="name" class="paragraph-1">Upload <span class="formspan">Documents</span></label>
+                <label for="documents" class="paragraph-1">Upload <span class="formspan">Documents</span></label>
                 <div class="text-field is--doc w-input">
-                  <input type="file"   name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="name">
-                  <input type="file"   name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="name">
-                  <input type="file"   name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="name">
+                  <input type="file"   name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="document1" required>
+                  <input type="file"   name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="document2" required>
+                  <input type="file"   name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="document3" required>
                  </div>
                 
-                <label for="name-2" class="paragraph-1">Enter the <span class="formspan">Fund Required</span></label>
-                <input type="text" class="text-field w-input" maxlength="256" name="name-2" data-name="Name 2" placeholder="eg:- 4,00,000 Rs." id="name-2">
+                <label for="fund-amount" class="paragraph-1">Enter the <span class="formspan">Fund Required</span></label>
+                <input type="text" class="text-field w-input" maxlength="256" name="name-2" data-name="Name 2" placeholder="eg:- 4,00,000 Rs." id="fund_amount">
               </div>
-              <div class="formbuttonwrap"><input type="submit" value="Request" data-wait="Please wait..." class="form-button is--submit w-button"><input type="submit" value="Reset" data-wait="Please wait..." class="form-button is--reset w-button"></div>
+              <div class="formbuttonwrap">
+                <input type="submit" value="Request" data-wait="Please wait..." class="form-button is--submit w-button">
+              </div>
             </form>
-            
+
           </div>
         </div>
       </div>
@@ -147,8 +149,8 @@
   //import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-  import { getDatabase, set, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
-  import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+  import { getDatabase, set, ref, onValue, update, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
 
 
@@ -171,6 +173,9 @@
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
   const auth = getAuth();
+  const storage = getStorage(app);
+
+  
 
   window.addEventListener('load', function() {
   const isLoggedIn = sessionStorage.getItem('isLoggedIn');
@@ -217,12 +222,91 @@ onValue(schemesRef, (snapshot) => {
   for (const schemeKey in schemes) {
     const schemeName = schemes[schemeKey].name;
     var option = document.createElement("option");
-    option.value = schemeKey;
+    option.value = schemeName;
     option.text = schemeName;
     select.appendChild(option);
   }
 });
 
+
+//Fetching documents
+
+import { getStorage, ref as storagereference, uploadBytes, getDownloadURL} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-storage.js"
+const form = document.getElementById("fund-request-form");
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const userId = user.uid;
+      const userEmail = user.email;
+
+      // Get the form details from the HTML form
+      const name = document.getElementById("name").value;
+      const scheme = document.getElementById("select_scheme").value;
+      const fundAmount = document.getElementById("fund_amount").value;
+      const document1 = document.getElementById("document1").files[0];
+      const document2 = document.getElementById("document2").files[0];
+      const document3 = document.getElementById("document3").files[0];
+
+      // Create file metadata including the content type
+      const metadata = {
+        contentType: "image/jpeg",
+      };
+
+      // Upload the documents to Firebase Storage
+      const document1Ref = storagereference(storage, "documents/" + userId + "/document1.jpg");
+      const document2Ref = storagereference(storage, "documents/" + userId + "/document2.jpg");
+      const document3Ref = storagereference(storage, "documents/" + userId + "/document3.jpg");
+
+      const uploadTask1 = uploadBytes(document1Ref, document1, metadata);
+      const uploadTask2 = uploadBytes(document2Ref, document2, metadata);
+      const uploadTask3 = uploadBytes(document3Ref, document3, metadata);
+
+      // Store the form details and user details in the Firebase Realtime Database
+      const requestsRef = ref(database, "requests");
+      const newRequestRef = push(requestsRef);
+
+      set(newRequestRef,{
+        userId: userId,
+        userEmail: userEmail,
+        name: name,
+        scheme: scheme,
+        fundAmount: fundAmount,
+        document1Url: "",
+        document2Url: "",
+        document3Url: "",
+      });
+
+      uploadTask1.then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url) => {
+          update(newRequestRef,{
+            document1Url: url,
+          });
+        });
+      });
+
+      uploadTask2.then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url) => {
+          update(newRequestRef,{
+            document2Url: url,
+          });
+        });
+      });
+
+      uploadTask3.then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url) => {
+          update(newRequestRef,{
+            document3Url: url,
+          });
+        });
+      });
+    }
+  });
+
+  alert('Your request has been submitted for approval!');
+  
+});
 
 
 </script>
