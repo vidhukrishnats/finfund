@@ -149,7 +149,7 @@
   //import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-  import { getDatabase, set, ref, onValue, update, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  import { getDatabase, get, set, ref, onValue, update, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
   import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
 
@@ -241,71 +241,91 @@ form.addEventListener("submit", (event) => {
       const userId = user.uid;
       const userEmail = user.email;
 
-      // Get the form details from the HTML form
-      const name = document.getElementById("name").value;
-      const scheme = document.getElementById("select_scheme").value;
-      const fundAmount = document.getElementById("fund_amount").value;
-      const document1 = document.getElementById("document1").files[0];
-      const document2 = document.getElementById("document2").files[0];
-      const document3 = document.getElementById("document3").files[0];
+      // Construct the path to the user's wallet address node
+      const userNodePath = `users/${userId}/walletaddress`;
 
-      // Create file metadata including the content type
-      const metadata = {
-        contentType: "image/jpeg",
-      };
+      // Get a reference to the user's wallet address node
+      const walletAddressRef = ref(database, userNodePath);
 
-      // Upload the documents to Firebase Storage
-      const document1Ref = storagereference(storage, "documents/" + userId + "/document1.jpg");
-      const document2Ref = storagereference(storage, "documents/" + userId + "/document2.jpg");
-      const document3Ref = storagereference(storage, "documents/" + userId + "/document3.jpg");
+      // Read the wallet address from the database
+      get(walletAddressRef)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const walletAddress = snapshot.val();
 
-      const uploadTask1 = uploadBytes(document1Ref, document1, metadata);
-      const uploadTask2 = uploadBytes(document2Ref, document2, metadata);
-      const uploadTask3 = uploadBytes(document3Ref, document3, metadata);
+            // Get the form details from the HTML form
+            const name = document.getElementById("name").value;
+            const scheme = document.getElementById("select_scheme").value;
+            const fundAmount = document.getElementById("fund_amount").value;
+            const document1 = document.getElementById("document1").files[0];
+            const document2 = document.getElementById("document2").files[0];
+            const document3 = document.getElementById("document3").files[0];
 
-      // Store the form details and user details in the Firebase Realtime Database
-      const requestsRef = ref(database, "requests");
-      const newRequestRef = push(requestsRef);
+            // Create file metadata including the content type
+            const metadata = {
+              contentType: "image/jpeg",
+            };
 
-      set(newRequestRef,{
-        userId: userId,
-        userEmail: userEmail,
-        name: name,
-        scheme: scheme,
-        fundAmount: fundAmount,
-        document1Url: "",
-        document2Url: "",
-        document3Url: "",
-      });
+            // Upload the documents to Firebase Storage
+            const document1Ref = storagereference(storage, "documents/" + userId + "/document1.jpg");
+            const document2Ref = storagereference(storage, "documents/" + userId + "/document2.jpg");
+            const document3Ref = storagereference(storage, "documents/" + userId + "/document3.jpg");
 
-      uploadTask1.then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          update(newRequestRef,{
-            document1Url: url,
-          });
+            const uploadTask1 = uploadBytes(document1Ref, document1, metadata);
+            const uploadTask2 = uploadBytes(document2Ref, document2, metadata);
+            const uploadTask3 = uploadBytes(document3Ref, document3, metadata);
+
+            // Store the form details and user details in the Firebase Realtime Database
+            const requestsRef = ref(database, "requests");
+            const newRequestRef = push(requestsRef);
+
+            set(newRequestRef, {
+              userId: userId,
+              userEmail: userEmail,
+              walletAddress: walletAddress,
+              name: name,
+              scheme: scheme,
+              fundAmount: fundAmount,
+              document1Url: "",
+              document2Url: "",
+              document3Url: "",
+              requestStatus: "",
+            });
+
+            uploadTask1.then((snapshot) => {
+              getDownloadURL(snapshot.ref).then((url) => {
+                update(newRequestRef, {
+                  document1Url: url,
+                });
+              });
+            });
+
+            uploadTask2.then((snapshot) => {
+              getDownloadURL(snapshot.ref).then((url) => {
+                update(newRequestRef, {
+                  document2Url: url,
+                });
+              });
+            });
+
+            uploadTask3.then((snapshot) => {
+              getDownloadURL(snapshot.ref).then((url) => {
+                update(newRequestRef, {
+                  document3Url: url,
+                });
+              });
+            });
+          } else {
+            console.log("Wallet address not found for the user.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
         });
-      });
-
-      uploadTask2.then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          update(newRequestRef,{
-            document2Url: url,
-          });
-        });
-      });
-
-      uploadTask3.then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          update(newRequestRef,{
-            document3Url: url,
-          });
-        });
-      });
     }
   });
 
   alert('Your request has been submitted for approval!');
-  
 });
 
 

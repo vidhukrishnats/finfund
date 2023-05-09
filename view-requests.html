@@ -2,6 +2,9 @@
 <!--  Last Published: Sun Apr 09 2023 09:11:23 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="643280ea5127ec6609a8c77d" data-wf-site="643280ea5127ec914ea8c775">
 <head>
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+        type="application/javascript"></script>
+  
   <meta charset="utf-8">
   <title>View Requests</title>
   <meta content="View Requests" property="og:title">
@@ -74,73 +77,26 @@
           <div class="contentwrap"></div>
           <div class="headwrap is--adminfunds">
             <p class="paragraph-1 is--funds">
-              <a href="#" class="inlink">Scholarship</a>
+              <a href="#" class="inlink">Loading...</a>
             </p>
-            <h1 class="heading-2 is--funds">Vidhu Krishna</h1>
-            <p class="paragraph-1 is--hero"><span class="greenspan">Funds Available </span>: 1,50,000 INR ( 1 ETH )</p>
+            <h1 class="heading-2 is--funds">Fetching Requests....</h1>
+            <p class="paragraph-1 is--hero"><span class="greenspan">Funds Available </span>: Loading...</p>
             <p class="paragraph-1 is--funds">
-              <a href="#" class="inlink">View Documents</a>
+              <a href="#" class="inlink">Loading....</a>
             </p>
             <div class="buttonwrap is--adminfund">
-              <a href="#" class="button is--1 w-button">Accept Request</a>
-              <a href="#" class="button is--1 is--reject w-button">Reject Request</a>
+              <a href="#" class="button is--1 w-button">Loading..</a>
+              <a href="#" class="button is--1 is--reject w-button">Loading..</a>
             </div>
           </div>
         </div>
-        <div class="fund-requests">
-          <div class="contentwrap"></div>
-          <div class="headwrap is--adminfunds">
-            <p class="paragraph-1 is--funds">
-              <a href="#" class="inlink">Scholarship</a>
-            </p>
-            <h1 class="heading-2 is--funds">Vidhu Krishna</h1>
-            <p class="paragraph-1 is--hero"><span class="greenspan">Funds Available </span>: 1,50,000 INR ( 1 ETH )</p>
-            <p class="paragraph-1 is--funds">
-              <a href="#" class="inlink">View Documents</a>
-            </p>
-            <div class="buttonwrap is--adminfund">
-              <a href="#" class="button is--1 w-button">Accept Request</a>
-              <a href="#" class="button is--1 is--reject w-button">Reject Request</a>
-            </div>
-          </div>
-        </div>
-        <div class="fund-requests">
-          <div class="contentwrap"></div>
-          <div class="headwrap is--adminfunds">
-            <p class="paragraph-1 is--funds">
-              <a href="#" class="inlink">Scholarship</a>
-            </p>
-            <h1 class="heading-2 is--funds">Vidhu Krishna</h1>
-            <p class="paragraph-1 is--hero"><span class="greenspan">Funds Available </span>: 1,50,000 INR ( 1 ETH )</p>
-            <p class="paragraph-1 is--funds">
-              <a href="#" class="inlink">View Documents</a>
-            </p>
-            <div class="buttonwrap is--adminfund">
-              <a href="#" class="button is--1 w-button">Accept Request</a>
-              <a href="#" class="button is--1 is--reject w-button">Reject Request</a>
-            </div>
-          </div>
-        </div>
-        <div class="fund-requests">
-          <div class="contentwrap"></div>
-          <div class="headwrap is--adminfunds">
-            <p class="paragraph-1 is--funds">
-              <a href="#" class="inlink">Scholarship</a>
-            </p>
-            <h1 class="heading-2 is--funds">Vidhu Krishna</h1>
-            <p class="paragraph-1 is--hero"><span class="greenspan">Funds Available </span>: 1,50,000 INR ( 1 ETH )</p>
-            <p class="paragraph-1 is--funds">
-              <a href="#" class="inlink">View Documents</a>
-            </p>
-            <div class="buttonwrap is--adminfund">
-              <a href="#" class="button is--1 w-button">Accept Request</a>
-              <a href="#" class="button is--1 is--reject w-button">Reject Request</a>
-            </div>
-          </div>
-        </div>
+        
+        
+        
       </div>
     </div>
   </div>
+  
   <section class="footer-subscribe wf-section">
     <div class="container-2">
       <div class="footer-form-two w-form">
@@ -185,14 +141,18 @@
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 </body>
 <script type="module">
-  // Import the functions you need from the SDKs you need
-  //import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-  //import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
-  //import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+  
+
+  
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+  
+
+  
+  
+
 
 
 
@@ -215,6 +175,14 @@
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
   const auth = getAuth();
+
+  
+
+  
+
+  
+  
+    
 
   window.addEventListener('load', function() {
   const isLoggedIn = sessionStorage.getItem('isLoggedIn');
@@ -258,14 +226,9 @@ onValue(requestsRef, (snapshot) => {
       var requestcard = document.createElement('div');
       requestcard.classList.add('fund-requests');
       
-      // // Set the content of the card
-      // card.innerHTML = `
-      //   <h1 class="heading-2 is--funds">${scheme.name}</h1>
-      //   <p class="paragraph-1 is--funds">${scheme.description}</p>
-      //   <p class="paragraph-1 is--funds">Amount: ${scheme.amount}</p>
-      // `;
-
+      
       // Set the content of the card
+      
       requestcard.innerHTML = `
       <div class="contentwrap"></div>
           <div class="headwrap is--adminfunds">
@@ -284,16 +247,95 @@ onValue(requestsRef, (snapshot) => {
               <a href="${request.document3Url}" class="inlink">View Document3</a>
             </p>
             <div class="buttonwrap is--adminfund">
-              <a href="#" class="button is--1 w-button">Accept Request</a>
-              <a href="#" class="button is--1 is--reject w-button">Reject Request</a>
+              <a href="#" class="button is--1 w-button" id="acceptbutton_${key}">Accept Request</a>
+              <a href="#" class="button is--2 w-button" id="rejectbutton_${key}">Reject Request</a>
             </div>
           </div>
       `;
       
       // Add the card to the card container
       document.querySelector('#fundwrap').appendChild(requestcard);
+      
+      const node = 'https://magical-palpable-knowledge.ethereum-sepolia.discover.quiknode.pro/e70610a95f0a17b06799f1cc18cb1672dd44f008/';
+      const provider = new ethers.providers.JsonRpcProvider(node);
+
+      const privatekey = '0xaa03c667190ee06d2f58536e0557e2c87a66668b893d60d09a190fac44097c35';
+      const wallet = new ethers.Wallet(privatekey,provider);
+      const recieveraddress = request.walletAddress;
+      const sender = '0xb1Ad09603c8b462B8CA34A8e350B787e37b1d756';
+
+      async function fetchExchangeRate() {
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr');
+        const data = await response.json();
+        return data.ethereum.inr;
+      }
+
+      async function calculateEtherAmount(inrAmount) {
+        const exchangeRate = await fetchExchangeRate();
+        const etherAmount = inrAmount / exchangeRate;
+        return etherAmount.toFixed(4);
+      }
+
+
+      
+
+      const acceptButton = document.querySelector(`#acceptbutton_${key}`);
+      acceptButton.addEventListener('click', async function() {
+        const recipient = request.walletAddress; // Assuming userAddress property exists in your data structure
+        
+        const fundAmountInINR = request.fundAmount;
+        const etherAmount = await calculateEtherAmount(fundAmountInINR);
+        const amounttosend = etherAmount.toString();
+        
+
+        const tx = {
+
+          to: recieveraddress,
+          value: ethers.utils.parseEther(amounttosend)
+
+      
+        };
+
+        let txndetails;
+
+        
+
+        async function transferFunds() {
+          console.log("Inside function");
+          try {
+            const txObject = await wallet.sendTransaction(tx);
+            console.log(txObject);
+            txndetails = txObject;
+          } catch (error) {
+            console.error("Transaction error:", error);
+            // Handle the error, show an error message, etc.
+          }
+        }
+        
+        
+        
+        await transferFunds();
+
+        //Store Transaction details in Firebase
+
+        if (txndetails && txndetails.from) {
+          const transactionsRef = ref(database, "transactions");
+          await set(transactionsRef,{
+            from: txndetails.from,
+            reciever: request.name,
+            scheme:request.scheme,
+            
+            to: txndetails.to,
+            hash: txndetails.hash,
+            chainId: txndetails.chainId,
+            nonce: txndetails.nonce,
+            value: txndetails.value.toString()
+          });
+        }
+      });
     }
   }
+
 });
 
 </script>
