@@ -351,5 +351,9 @@ table {
 }
 td,
 th {
-  padding: 0;
+  padding: 20px;
+  max-width: 200px;
+  word-wrap: break-word;
+  white-space: normal;
+  
 }

@@ -146,7 +146,7 @@
   
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-  import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  import { getDatabase, ref, onValue, set, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
   
 
@@ -282,7 +282,8 @@ onValue(requestsRef, (snapshot) => {
       const acceptButton = document.querySelector(`#acceptbutton_${key}`);
       acceptButton.addEventListener('click', async function() {
         const recipient = request.walletAddress; // Assuming userAddress property exists in your data structure
-        
+        let recievername = request.name;
+        let recieverscheme = request.scheme;
         const fundAmountInINR = request.fundAmount;
         const etherAmount = await calculateEtherAmount(fundAmountInINR);
         const amounttosend = etherAmount.toString();
@@ -320,10 +321,11 @@ onValue(requestsRef, (snapshot) => {
 
         if (txndetails && txndetails.from) {
           const transactionsRef = ref(database, "transactions");
-          await set(transactionsRef,{
+          const newTransactionsRef = push(transactionsRef); // Generate a unique key for the new transaction
+          await set(newTransactionsRef,{
             from: txndetails.from,
-            reciever: request.name,
-            scheme:request.scheme,
+            recievername: request.name,
+            recievescheme: request.scheme,
             
             to: txndetails.to,
             hash: txndetails.hash,

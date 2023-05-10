@@ -1,0 +1,243 @@
+<!DOCTYPE html><!--  This site was created in Webflow. https://www.webflow.com  -->
+<!--  Last Published: Sun Apr 09 2023 09:11:23 GMT+0000 (Coordinated Universal Time)  -->
+<html data-wf-page="643280ea5127ec6609a8c77d" data-wf-site="643280ea5127ec914ea8c775">
+<head>
+
+
+    <style>
+        table {
+          border-collapse: collapse;
+          border-style: solid;
+          border-radius: 20px;
+          border: 1px;
+          border-color: #003F3C;
+          max-width: 100%;
+          overflow: none;
+          margin: auto;
+          table-layout: fixed;
+        }
+        th, td {
+          border: 1px solid #ddd;
+          padding-top: 20px;
+          padding-bottom: 20px;
+          padding-left: 15px;
+          padding-right: 15px;
+          text-align: left;
+        }
+        th {
+          background-color: #f2f2f2;
+        }
+        td{
+            padding: 20px;
+        }
+      </style>
+
+
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+        type="application/javascript"></script>
+  
+  <meta charset="utf-8">
+  <title>View Requests</title>
+  <meta content="View Requests" property="og:title">
+  <meta content="View Requests" property="twitter:title">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="Webflow" name="generator">
+  <link href="css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="css/finfund-53bba7-1c67b0c2132d78c2591091c1.webflow.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">WebFont.load({  google: {    families: ["Inter:regular,500,600,700,800,900"]  }});</script>
+  <!-- [if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" type="text/javascript"></script><![endif] -->
+  <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon">
+</head>
+
+<body>
+    <div class="navbar-logo-left wf-section">
+      <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar-logo-left-container shadow-three w-nav">
+        <div class="container">
+          <div class="navbar-wrapper">
+            <a href="index.html" class="navbar-brand w-nav-brand"><img src="./images/FinFund---Logo_1FinFund - Logo.png" loading="lazy" width="40" alt=""></a>
+            <nav role="navigation" class="nav-menu-wrapper w-nav-menu">
+              <ul role="list" class="nav-menu-two w-list-unstyled">
+                
+                <li>
+                  <div class="nav-divider"></div>
+                </li>
+                <li>
+                  <a href="login.html" class="nav-link" >Login</a>
+                </li>
+                <li>
+                  <div class="nav-divider"></div>
+                </li>
+                <li class="mobile-margin-top-10">
+                  <a href="register.html" class="button-nav w-button">REGISTER &gt;</a>
+                </li>
+                
+              </ul>
+            </nav>
+            <div class="menu-button w-nav-button">
+              <div class="w-icon-nav-menu"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section is--hero wf-section">
+        <div class="container w-container">
+          <div class="headwrap">
+            
+            <h1 class="heading-1">View Transactions</h1>
+            <p class="paragraph-1 is--hero">View all the transactions made through Finfund</p>
+
+        
+            
+          </div>
+        </div>
+    </div>
+
+    <div class="section is--funds wf-section">
+        <div class="container w-container">
+
+
+            <table>
+                <tr>
+
+                  <th>Nonce</th>
+                  
+                  <th>Sender Address</th>
+                  
+                  <th>Recipient Address</th>
+                  
+                  <th>Transaction Hash</th>
+
+                  <th>Chain ID</th>
+                  
+                  <th>Value(in Wei)</th>
+
+                </tr>
+                <tbody id="transactionTableBody"></tbody>
+            </table>
+          
+
+
+            
+            
+            
+        </div>
+    </div>
+
+    <section class="footer-subscribe wf-section">
+        <div class="container-2">
+          <div class="footer-form-two w-form">
+            <form id="wf-form-Footer-Form-Two" name="wf-form-Footer-Form-Two" data-name="Footer Form Two" method="get" class="footer-form-container-two">
+              <div class="heading-3 is--footer">Finfund.</div>
+              <h1 class="heading-2">Request More Information</h1>
+              <p class="paragraph-1 is--footer">A new era of public finance management.</p>
+              <a href="#" class="button is--1 is--footer w-button">Contact Us</a>
+            </form>
+            <div class="w-form-done">
+              <div>Thank you! Your submission has been received!</div>
+            </div>
+            <div class="w-form-fail">
+              <div>Oops! Something went wrong while submitting the form.</div>
+            </div>
+          </div>
+          <div class="footer-divider-two"></div>
+          <div class="footer-wrapper-three">
+            <div class="footer-block-three"><img src="images/FinFund---Logo---White_1FinFund---Logo---White.png" loading="lazy" alt="" class="image">
+              <a href="index.html" class="footer-link-three">HOME</a>
+              <a href="#" class="footer-link-three">OUR TEAM</a>
+            </div>
+            <div class="footer-social-block-three">
+              <a href="#" class="footer-social-link-three w-inline-block"><img src="images/linkedin_1linkedin.png" loading="lazy" alt=""></a>
+              <a href="#" class="footer-social-link-three w-inline-block"><img src="images/Facebook_1Facebook.png" loading="lazy" alt=""></a>
+              <a href="#" class="footer-social-link-three w-inline-block"><img src="images/Instagram_1Instagram.png" loading="lazy" alt=""></a>
+              <a href="#" class="footer-social-link-three w-inline-block"><img src="images/Youtube_1Youtube.png" loading="lazy" alt=""></a>
+            </div>
+          </div>
+          <div class="footer-divider-two"></div>
+          <div class="footer-bottom">
+            <div class="footer-copyright">© 2022 Company name. All rights reserved</div>
+            <div class="footer-legal-block">
+              <a href="#" class="footer-legal-link">Terms Of Use</a>
+              <a href="#" class="footer-legal-link">Privacy Policy</a>
+            </div>
+          </div>
+        </div>
+      </section>
+</body>
+
+<script type="module">
+  
+
+  
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+    import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+    
+  
+    
+    
+  
+  
+  
+  
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAiMYKv0YUdBFj1yPebYNzCKFrhXVGg_lc",
+      authDomain: "finfund-2.firebaseapp.com",
+      projectId: "finfund-2",
+      storageBucket: "finfund-2.appspot.com",
+      messagingSenderId: "311977682904",
+      appId: "1:311977682904:web:d431864c50de653a5df4ad",
+      measurementId: "G-M3KRFZKZ3B"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth();
+
+    const transactionsRef = ref(database, "transactions");
+
+    onValue(transactionsRef, (snapshot) => {
+      const transactions = snapshot.val();
+      const transactionTableBody = document.getElementById("transactionTableBody");
+
+      // Clear existing table rows
+      transactionTableBody.innerHTML = "";
+
+      // Iterate over transactions and create table rows
+      for (const key in transactions) {
+        if (transactions.hasOwnProperty(key)) {
+          const transaction = transactions[key];
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${transaction.nonce}</td>
+            
+            <td>${transaction.from}</td>
+            
+            <td>${transaction.to}</td>
+            <td>${transaction.hash}</td>
+            <td>${transaction.chainId}</td>
+            <td>${transaction.value}</td>
+          `;
+
+          transactionTableBody.appendChild(row);
+        }
+      }
+    });
+
+</script>
+</html>
