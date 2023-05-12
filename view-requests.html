@@ -211,6 +211,7 @@ logoutBtn.addEventListener('click', function() {
 
 // Retrieve data from Firebase and display it as cards
 const requestsRef = ref(database, "requests");
+let yourData=[];
 onValue(requestsRef, (snapshot) => {
   const requests = snapshot.val();
 
@@ -218,9 +219,14 @@ onValue(requestsRef, (snapshot) => {
   document.querySelector('#fundwrap').innerHTML = '';
 
   // Loop through the schemes and create cards for each one
+  
   for (var key in requests) {
     if (requests.hasOwnProperty(key)) {
       var request = requests[key];
+      console.log("Inside First Loop");
+      console.log(key);
+
+      yourData.push(key);
       
       // Create a new HTML element for the card
       var requestcard = document.createElement('div');
@@ -235,7 +241,13 @@ onValue(requestsRef, (snapshot) => {
             <p class="paragraph-1 is--funds">
               <a href="#" class="inlink">${request.scheme}</a>
             </p>
-            <h1 class="heading-2 is--funds">${request.name}</h1>
+
+            <p class="paragraph-1 is--funds">
+              <a href="#" class="inlink" id="${key}">${key}</a>
+            </p>
+
+
+            <h1 class="heading-2 is--funds" id="name">${request.name}</h1>
 
             <p class="paragraph-1 is--hero"><span class="greenspan">E-mail of the individual </span>: ${request.userEmail}</p>
             
@@ -253,18 +265,28 @@ onValue(requestsRef, (snapshot) => {
           </div>
       `;
       
-      // Add the card to the card container
+      //Add the card to the card container
       document.querySelector('#fundwrap').appendChild(requestcard);
+      
+      
+
+      
+
+
+    }
+  }
+
+  
       
       const node = 'https://magical-palpable-knowledge.ethereum-sepolia.discover.quiknode.pro/e70610a95f0a17b06799f1cc18cb1672dd44f008/';
       const provider = new ethers.providers.JsonRpcProvider(node);
 
       const privatekey = '0xaa03c667190ee06d2f58536e0557e2c87a66668b893d60d09a190fac44097c35';
       const wallet = new ethers.Wallet(privatekey,provider);
-      const recieveraddress = request.walletAddress;
+      // const recieveraddress = request.walletAddress;
       const sender = '0xb1Ad09603c8b462B8CA34A8e350B787e37b1d756';
 
-      async function fetchExchangeRate() {
+  async function fetchExchangeRate() {
         const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr');
         const data = await response.json();
         return data.ethereum.inr;
@@ -276,67 +298,65 @@ onValue(requestsRef, (snapshot) => {
         return etherAmount.toFixed(4);
       }
 
+  function createAcceptHandler(key, request) {
+  return async function() {
+    const recipient = request.walletAddress; // Assuming userAddress property exists in your data structure
+    let recievername = request.name;
+    let recieverscheme = request.scheme;
+    const fundAmountInINR = request.fundAmount;
+    const etherAmount = await calculateEtherAmount(fundAmountInINR);
+    const amounttosend = etherAmount.toString();
 
-      
+    const tx = {
+      to: recipient,
+      value: ethers.utils.parseEther(amounttosend)
+    };
 
-      const acceptButton = document.querySelector(`#acceptbutton_${key}`);
-      acceptButton.addEventListener('click', async function() {
-        const recipient = request.walletAddress; // Assuming userAddress property exists in your data structure
-        let recievername = request.name;
-        let recieverscheme = request.scheme;
-        const fundAmountInINR = request.fundAmount;
-        const etherAmount = await calculateEtherAmount(fundAmountInINR);
-        const amounttosend = etherAmount.toString();
-        
+    let txndetails;
 
-        const tx = {
+    async function transferFunds() {
+      console.log("Inside function");
+      try {
+        const txObject = await wallet.sendTransaction(tx);
+        console.log(txObject);
+        txndetails = txObject;
+        alert("Transaction Processed")
+      } catch (error) {
+        console.error("Transaction error:", error);
+        // Handle the error, show an error message, etc.
+      }
+    }
 
-          to: recieveraddress,
-          value: ethers.utils.parseEther(amounttosend)
+    await transferFunds();
 
-      
-        };
-
-        let txndetails;
-
-        
-
-        async function transferFunds() {
-          console.log("Inside function");
-          try {
-            const txObject = await wallet.sendTransaction(tx);
-            console.log(txObject);
-            txndetails = txObject;
-          } catch (error) {
-            console.error("Transaction error:", error);
-            // Handle the error, show an error message, etc.
-          }
-        }
-        
-        
-        
-        await transferFunds();
-
-        //Store Transaction details in Firebase
-
-        if (txndetails && txndetails.from) {
-          const transactionsRef = ref(database, "transactions");
-          const newTransactionsRef = push(transactionsRef); // Generate a unique key for the new transaction
-          await set(newTransactionsRef,{
-            from: txndetails.from,
-            recievername: request.name,
-            recievescheme: request.scheme,
-            
-            to: txndetails.to,
-            hash: txndetails.hash,
-            chainId: txndetails.chainId,
-            nonce: txndetails.nonce,
-            value: txndetails.value.toString()
-          });
-        }
+    //Store Transaction details in Firebase
+    if (txndetails && txndetails.from) {
+      const transactionsRef = ref(database, "transactions");
+      const newTransactionsRef = push(transactionsRef); // Generate a unique key for the new transaction
+      await set(newTransactionsRef, {
+        from: txndetails.from,
+        recievername: request.name,
+        recievescheme: request.scheme,
+        to: txndetails.to,
+        hash: txndetails.hash,
+        chainId: txndetails.chainId,
+        nonce: txndetails.nonce,
+        value: txndetails.value.toString()
       });
     }
-  }
+  };
+}
+
+// Loop over the keys and create event listeners
+for (const key in requests) {
+  console.log("Inside Second Loop");
+
+  console.log(key);
+  const request = requests[key];
+  const acceptButton = document.querySelector(`#acceptbutton_${key}`);
+  acceptButton.addEventListener('click', createAcceptHandler(key, request));
+}
+
 
 });
 

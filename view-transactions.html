@@ -35,11 +35,13 @@
 
   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
         type="application/javascript"></script>
+
+  <script src='https://cdn.jsdelivr.net/npm/bignumber.js@9.1.0/bignumber.min.js'></script>
   
   <meta charset="utf-8">
-  <title>View Requests</title>
-  <meta content="View Requests" property="og:title">
-  <meta content="View Requests" property="twitter:title">
+  <title>View Transactions</title>
+  <meta content="View Transactions" property="og:title">
+  <meta content="View Transactions" property="twitter:title">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
   <link href="css/normalize.css" rel="stylesheet" type="text/css">
@@ -108,8 +110,14 @@
                 <tr>
 
                   <th>Nonce</th>
+
+                  <th>Scheme</th>
                   
                   <th>Sender Address</th>
+
+                  <th>Recipient Name</th>
+
+
                   
                   <th>Recipient Address</th>
                   
@@ -117,7 +125,7 @@
 
                   <th>Chain ID</th>
                   
-                  <th>Value(in Wei)</th>
+                  <th>Amount(in Rs)</th>
 
                 </tr>
                 <tbody id="transactionTableBody"></tbody>
@@ -214,29 +222,61 @@
       const transactions = snapshot.val();
       const transactionTableBody = document.getElementById("transactionTableBody");
 
+      async function convertWeiToINR(weiAmount) {
+        
+        const response = await fetch(
+          `https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr`
+        );
+        const data = await response.json();
+        const ethToINR = data.ethereum.inr;
+
+        // Convert Wei to Ether
+        const etherAmount = parseInt(weiAmount) / (10) ** (18);
+
+        // Convert Ether to INR
+        const inrAmount = etherAmount * ethToINR;
+        
+
+        
+
+        return inrAmount;
+        
+      }
+
       // Clear existing table rows
       transactionTableBody.innerHTML = "";
 
       // Iterate over transactions and create table rows
-      for (const key in transactions) {
+      async function displaytransaction(){
+        for (const key in transactions) {
         if (transactions.hasOwnProperty(key)) {
           const transaction = transactions[key];
 
           const row = document.createElement("tr");
+          const inrValue = await convertWeiToINR(transaction.value);
+          
+
+          
           row.innerHTML = `
             <td>${transaction.nonce}</td>
+            <td>${transaction.recievescheme}</td>
             
             <td>${transaction.from}</td>
+            <td>${transaction.recievername}</td>
             
             <td>${transaction.to}</td>
             <td>${transaction.hash}</td>
             <td>${transaction.chainId}</td>
-            <td>${transaction.value}</td>
+            <td>${inrValue.toFixed(2)}</td>
           `;
 
           transactionTableBody.appendChild(row);
         }
       }
+    } 
+
+    displaytransaction();
+      
     });
 
 </script>
