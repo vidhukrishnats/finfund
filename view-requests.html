@@ -223,6 +223,7 @@ onValue(requestsRef, (snapshot) => {
   for (var key in requests) {
     if (requests.hasOwnProperty(key)) {
       var request = requests[key];
+      
       console.log("Inside First Loop");
       console.log(key);
 
@@ -243,6 +244,10 @@ onValue(requestsRef, (snapshot) => {
             </p>
 
             <p class="paragraph-1 is--funds">
+              <a href="#" class="inlink">${request.requestStatus}</a>
+            </p>
+
+            <p class="paragraph-1 is--funds">
               <a href="#" class="inlink" id="${key}">${key}</a>
             </p>
 
@@ -259,11 +264,15 @@ onValue(requestsRef, (snapshot) => {
               <a href="${request.document3Url}" class="inlink">View Document3</a>
             </p>
             <div class="buttonwrap is--adminfund">
-              <a href="#" class="button is--1 w-button" id="acceptbutton_${key}">Accept Request</a>
-              <a href="#" class="button is--2 w-button" id="rejectbutton_${key}">Reject Request</a>
+              ${request.requestStatus !== 'Approved' && request.requestStatus !== 'Rejected' ? `
+                <a href="#" class="button is--1 w-button" id="acceptbutton_${key}">Accept Request</a>
+                <a href="#" class="button is--2 w-button" id="rejectbutton_${key}">Reject Request</a>
+              ` : ''}
             </div>
           </div>
       `;
+
+      
       
       //Add the card to the card container
       document.querySelector('#fundwrap').appendChild(requestcard);
@@ -320,7 +329,13 @@ onValue(requestsRef, (snapshot) => {
         const txObject = await wallet.sendTransaction(tx);
         console.log(txObject);
         txndetails = txObject;
-        alert("Transaction Processed")
+        alert("Transaction Processed");
+
+        if (txndetails && txndetails.from) {
+          const requestRef = ref(database, `requests/${key}`);
+          await set(requestRef, { ...request, requestStatus: "Approved" });
+        }
+
       } catch (error) {
         console.error("Transaction error:", error);
         // Handle the error, show an error message, etc.
@@ -347,14 +362,38 @@ onValue(requestsRef, (snapshot) => {
   };
 }
 
+function createRejectHandler(key) {
+  return async function () {
+    try {
+      const requestRef = ref(database, `requests/${key}`);
+      await set(requestRef, { ...request, requestStatus: "Rejected" });
+      alert('Request rejected successfully');
+      
+    } catch (error) {
+      console.error('Error rejecting request:', error);
+      // Handle the error, show an error message, etc.
+    }
+  };
+}
+
 // Loop over the keys and create event listeners
 for (const key in requests) {
   console.log("Inside Second Loop");
 
   console.log(key);
   const request = requests[key];
-  const acceptButton = document.querySelector(`#acceptbutton_${key}`);
-  acceptButton.addEventListener('click', createAcceptHandler(key, request));
+
+  if (request.requestStatus === "Approved" || request.requestStatus === "Rejected") {
+    continue; // Skip this iteration of the loop for "Approved" or "Rejected" requests
+  }
+  
+
+    const acceptButton = document.querySelector(`#acceptbutton_${key}`);
+    acceptButton.addEventListener('click', createAcceptHandler(key, request));
+    const rejectButton = document.querySelector(`#rejectbutton_${key}`);
+    rejectButton.addEventListener('click', createRejectHandler(key));
+
+  
 }
 
 
