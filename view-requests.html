@@ -232,6 +232,10 @@ onValue(requestsRef, (snapshot) => {
       // Create a new HTML element for the card
       var requestcard = document.createElement('div');
       requestcard.classList.add('fund-requests');
+
+      if(request.requestStatus === "Rejected"){
+        continue;
+      }
       
       
       // Set the content of the card
@@ -264,7 +268,7 @@ onValue(requestsRef, (snapshot) => {
               <a href="${request.document3Url}" class="inlink">View Document3</a>
             </p>
             <div class="buttonwrap is--adminfund">
-              ${request.requestStatus !== 'Approved' && request.requestStatus !== 'Rejected' ? `
+              ${request.requestStatus !== 'Approved' ? `
                 <a href="#" class="button is--1 w-button" id="acceptbutton_${key}">Accept Request</a>
                 <a href="#" class="button is--2 w-button" id="rejectbutton_${key}">Reject Request</a>
               ` : ''}
