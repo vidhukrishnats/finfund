@@ -1,11 +1,13 @@
 <!DOCTYPE html><!--  This site was created in Webflow. https://www.webflow.com  -->
 <!--  Last Published: Sun Apr 09 2023 09:11:23 GMT+0000 (Coordinated Universal Time)  -->
-<html data-wf-page="643280ea5127ecb61ea8c77c" data-wf-site="643280ea5127ec914ea8c775">
+<html data-wf-page="643280ea5127ec6609a8c77d" data-wf-site="643280ea5127ec914ea8c775">
 <head>
+  
+
   <meta charset="utf-8">
-  <title>User Profile</title>
-  <meta content="User Profile" property="og:title">
-  <meta content="User Profile" property="twitter:title">
+  <title>View Requests</title>
+  <meta content="View Requests" property="og:title">
+  <meta content="View Requests" property="twitter:title">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
   <link href="css/normalize.css" rel="stylesheet" type="text/css">
@@ -25,10 +27,12 @@
     <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar-logo-left-container shadow-three w-nav">
       <div class="container">
         <div class="navbar-wrapper">
-          <a href="index.html" class="navbar-brand w-nav-brand"><img src="./images/FinFund---Logo_1FinFund - Logo.png" loading="lazy" width="29" alt=""></a>
+          <a href="index.html" class="navbar-brand w-nav-brand"><img src="./images/FinFund---Logo_1FinFund - Logo.png" loading="lazy" width="40" alt=""></a>
           <nav role="navigation" class="nav-menu-wrapper w-nav-menu">
             <ul role="list" class="nav-menu-two w-list-unstyled">
-              
+              <li>
+                <a href="#" class="nav-link">DASHBOARD</a>
+              </li>
               <li>
                 <div class="nav-divider"></div>
               </li>
@@ -39,7 +43,7 @@
                 <div class="nav-divider"></div>
               </li>
               <li class="mobile-margin-top-10">
-                <a href="./view-user-requests.html" class="button-nav w-button">View your Requests &gt;</a>
+                <a href="register.html" class="button-nav w-button">vIEW TRANSACTIONS &gt;</a>
               </li>
             </ul>
           </nav>
@@ -56,55 +60,42 @@
         <h3 class="heading-3">Welcome to <span class="h3-span">FinFund.</span></h3>
         <h1 class="heading-1" id="username"></h1>
         <p class="paragraph-1 is--hero" id="email"></p>
-        <p class="paragraph-1 is--hero">Wallet Address : <span class="greenspan" id="walletaddress"></span></p>
-        <p class="paragraph-1 is--hero"><span class="greenspan">Wallet Balance </span>: 1,50,000 INR ( 1 ETH )</p>
+        <p class="paragraph-1 is--hero" id="walletaddress"><span class="greenspan">Wallet Address</span> : 0x12r456HJ9</p>
+        
       </div>
     </div>
   </div>
   <div class="section is--funds wf-section">
     <div class="container w-container">
-      <div class="fundwrap">
-        <div class="w-layout-grid grid-2" id="grid">
-          <!-- <div id="w-node-_7462a428-9cf0-9ea8-ef6a-8b9af87205d3-1ea8c77c" class="grid-item is--funds">
-            <div class="grid-content is--top">
-              <h1 class="heading-2 is--funds">Scholarship</h1>
-              <p class="paragraph-1">We provide financial assistance to economically underprivileged students. Highlights: Donation Option Available, Volunteering Option Available.</p>
+      <div class="headwrap">
+        <h1 class="heading-1">Requests</h1>
+        <p class="paragraph-1 is--hero">Select a request below to approve funds.</p>
+      </div>
+      <div class="fundwrap is--admin" id="fundwrap">
+        <div class="fund-requests">
+          <div class="contentwrap"></div>
+          <div class="headwrap is--adminfunds">
+            <p class="paragraph-1 is--funds">
+              <a href="#" class="inlink">Loading...</a>
+            </p>
+            <h1 class="heading-2 is--funds">Fetching Requests....</h1>
+            <p class="paragraph-1 is--hero"><span class="greenspan">Funds Available </span>: Loading...</p>
+            <p class="paragraph-1 is--funds">
+              <a href="#" class="inlink">Loading....</a>
+            </p>
+            <div class="buttonwrap is--adminfund">
+              <a href="#" class="button is--1 w-button">Loading..</a>
+              <a href="#" class="button is--1 is--reject w-button">Loading..</a>
             </div>
-            <div class="grid-content is--bottom">
-              <a href="funds.html" class="button is--1 is--funds w-button">Request Funds &gt;</a>
-            </div>
-          </div>
-          <div id="w-node-_7287d26e-cf3b-28de-41a4-6b3b90bbae77-1ea8c77c" class="grid-item is--funds">
-            <div class="grid-content is--top">
-              <h1 class="heading-2 is--funds">Scholarship</h1>
-              <p class="paragraph-1">We provide financial assistance to economically underprivileged students. Highlights: Donation Option Available, Volunteering Option Available.</p>
-            </div>
-            <div class="grid-content is--bottom">
-              <a href="funds.html" class="button is--1 is--funds w-button">Request Funds &gt;</a>
-            </div>
-          </div>
-          <div id="w-node-_03122767-1754-45f7-9f92-cf3ebafa9fe4-1ea8c77c" class="grid-item is--funds">
-            <div class="grid-content is--top">
-              <h1 class="heading-2 is--funds">Scholarship</h1>
-              <p class="paragraph-1">We provide financial assistance to economically underprivileged students. Highlights: Donation Option Available, Volunteering Option Available.</p>
-            </div>
-            <div class="grid-content is--bottom">
-              <a href="funds.html" class="button is--1 is--funds w-button">Request Funds &gt;</a>
-            </div>
-          </div>
-          <div id="w-node-_023fa6a7-7e02-223b-9ee0-2c3c5699cf13-1ea8c77c" class="grid-item is--funds">
-            <div class="grid-content is--top">
-              <h1 class="heading-2 is--funds">Scholarship</h1>
-              <p class="paragraph-1">We provide financial assistance to economically underprivileged students. Highlights: Donation Option Available, Volunteering Option Available.</p>
-            </div>
-            <div class="grid-content is--bottom">
-              <a href="funds.html" class="button is--1 is--funds w-button">Request Funds &gt;</a>
-            </div> -->
           </div>
         </div>
+        
+        
+        
       </div>
     </div>
   </div>
+  
   <section class="footer-subscribe wf-section">
     <div class="container-2">
       <div class="footer-form-two w-form">
@@ -149,10 +140,19 @@
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 </body>
 <script type="module">
-  // Import the functions you need from the SDKs you need
+  
+
+  
+
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-  import { getDatabase, set, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
-  import { getAuth, onAuthStateChanged, signOut} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+  import { getDatabase, ref, onValue, set, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+  
+
+  
+  
+
+
 
 
   // TODO: Add SDKs for Firebase products that you want to use
@@ -175,14 +175,17 @@
   const database = getDatabase(app);
   const auth = getAuth();
 
-onAuthStateChanged(auth , function(user) {
+  
+
+  
+  onAuthStateChanged(auth , function(user) {
   if (user) {
     // User is signed in.
     var username = user.displayName;
     var email = user.email;
     var walletaddress = user.photoURL;
-    console.log("hello");
-    console.log(username);
+    
+    
     // Display the user's email in the dashboard
     document.getElementById("username").innerHTML = username;
     document.getElementById("email").innerHTML = email;
@@ -191,8 +194,11 @@ onAuthStateChanged(auth , function(user) {
     // No user is signed in.
   }
 });
+  
+  
+    
 
-window.addEventListener('load', function() {
+  window.addEventListener('load', function() {
   const isLoggedIn = sessionStorage.getItem('isLoggedIn');
   if (!isLoggedIn) {
     // Redirect to login page
@@ -217,38 +223,96 @@ logoutBtn.addEventListener('click', function() {
   });
 });
 
-// Retrieve data from Firebase and display it as cards
-const schemesRef = ref(database, "schemes");
-onValue(schemesRef, (snapshot) => {
-  const schemes = snapshot.val();
-
-  // Clear the card container
-  document.querySelector('#grid').innerHTML = '';
-
-  // Loop through the schemes and create cards for each one
-  for (var key in schemes) {
-    if (schemes.hasOwnProperty(key)) {
-      var scheme = schemes[key];
-      
-      // Create a new HTML element for the card
-      var gridItem = document.createElement('div');
-      gridItem.classList.add('grid-item-scheme');
-      
-      // Set the content of the card
-      gridItem.innerHTML = `
-        <h1 class="heading-2 is--funds">${scheme.name}</h1>
-        <p class="paragraph-1">${scheme.description}</p>
-        <a href="funds.html" class="button is--1 is--funds w-button">Request Funds &gt;</a>
-        
-      `;
-      
-      // Add the card to the card container
-      document.querySelector('#grid').appendChild(gridItem);
-    }
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    // User is logged in, fetch and load the requests
+    loadUserRequests(user.uid);
+  } else {
+    // User is not logged in, redirect to the login page
+    location.href = './login.html';
   }
 });
 
+function loadUserRequests(userId) {
+const requestsRef = ref(database, "requests");
+let yourData=[];
+onValue(requestsRef, (snapshot) => {
+  const requests = snapshot.val();
 
+  // Clear the card container
+  document.querySelector('#fundwrap').innerHTML = '';
+
+  // Loop through the schemes and create cards for each one
+  
+  for (var key in requests) {
+    if (requests.hasOwnProperty(key)) {
+      
+      var request = requests[key];
+
+      
+
+      if(request.userId === userId)
+      {
+      
+      console.log("Inside First Loop");
+      console.log(key);
+
+      yourData.push(key);
+      
+      // Create a new HTML element for the card
+      var requestcard = document.createElement('div');
+      requestcard.classList.add('fund-requests');
+
+      
+      
+      
+      // Set the content of the card
+      
+      requestcard.innerHTML = `
+      <div class="contentwrap"></div>
+          <div class="headwrap is--adminfunds">
+            <p class="paragraph-1 is--funds">
+              <a href="#" class="inlink">${request.scheme}</a>
+            </p>
+
+            <p class="paragraph-1 is--funds">
+              <a href="#" class="inlink">${request.requestStatus}</a>
+            </p>
+
+            <p class="paragraph-1 is--funds">
+              <a href="#" class="inlink" id="${key}">${key}</a>
+            </p>
+
+
+            <h1 class="heading-2 is--funds" id="name">${request.name}</h1>
+
+            <p class="paragraph-1 is--hero"><span class="greenspan">E-mail of the individual </span>: ${request.userEmail}</p>
+            
+            <p class="paragraph-1 is--hero"><span class="greenspan">Requested Amount </span>: ${request.fundAmount}</p>
+
+            <p class="paragraph-1 is--funds">
+              <a href="${request.document1Url}" class="inlink">View Document1</a>
+              <a href="${request.document2Url}" class="inlink">View Document2</a>
+              <a href="${request.document3Url}" class="inlink">View Document3</a>
+            </p>
+            
+          </div>
+      `;
+
+      
+      
+      //Add the card to the card container
+      document.querySelector('#fundwrap').appendChild(requestcard);
+      
+      
+        }
+      
+
+
+    }
+  }
+
+});
+}
 </script>
-
 </html>
