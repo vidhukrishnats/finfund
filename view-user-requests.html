@@ -69,7 +69,7 @@
     <div class="container w-container">
       <div class="headwrap">
         <h1 class="heading-1">Requests</h1>
-        <p class="paragraph-1 is--hero">Select a request below to approve funds.</p>
+        <p class="paragraph-1 is--hero">View the status of various requests you made.</p>
       </div>
       <div class="fundwrap is--admin" id="fundwrap">
         <div class="fund-requests">
@@ -291,9 +291,9 @@ onValue(requestsRef, (snapshot) => {
             <p class="paragraph-1 is--hero"><span class="greenspan">Requested Amount </span>: ${request.fundAmount}</p>
 
             <p class="paragraph-1 is--funds">
-              <a href="${request.document1Url}" class="inlink">View Document1</a>
-              <a href="${request.document2Url}" class="inlink">View Document2</a>
-              <a href="${request.document3Url}" class="inlink">View Document3</a>
+              <a href="${request.document1Url}" class="inlink" target="_blank">View Document 1</a>
+              <a href="${request.document2Url}" class="inlink" target="_blank">View Document 2</a>
+              <a href="${request.document3Url}" class="inlink" target="_blank">View Document 3</a>
             </p>
             
           </div>

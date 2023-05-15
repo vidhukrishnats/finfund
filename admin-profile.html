@@ -40,9 +40,7 @@
               <li>
                 <div class="nav-divider"></div>
               </li>
-              <li class="mobile-margin-top-10">
-                <a href="register.html" class="button-nav w-button">vIEW TRANSACTIONS &gt;</a>
-              </li>
+              
             </ul>
           </nav>
           <div class="menu-button w-nav-button">
@@ -58,8 +56,8 @@
         <h3 class="heading-3">Welcome to <span class="h3-span">FinFund.</span></h3>
         <h1 class="heading-1">Government of Kerala</h1>
         <p class="paragraph-1 is--hero">funds@gov.in</p>
-        <p class="paragraph-1 is--hero"><span class="greenspan">Wallet Address</span> : 0x12r456HJ9</p>
-        <p class="paragraph-1 is--hero"><span class="greenspan">Wallet Balance </span>: 1,50,000 INR ( 1 ETH )</p>
+        <p class="paragraph-1 is--hero"><span class="greenspan">Wallet Address</span> : 0xb1Ad09603c8b462B8CA34A8e350B787e37b1d756</p>
+        
         <div class="buttonwrap">
           <a href="add-fund-scheme.html" class="button is--1 w-button">Add New Scheme</a>
         </div>
@@ -70,58 +68,12 @@
     <div class="container w-container">
       <div class="headwrap">
         <h1 class="heading-1">Scheme Information</h1>
-        <p class="paragraph-1 is--hero">Select a scheme below to request funds.</p>
+        <p class="paragraph-1 is--hero">View the list of available schemes to request funds.</p>
       </div>
       <div class="fundwrap is--admin" id="cardContainer">
         
-        <!-- <div class="fund">
-          <div class="contentwrap"></div>
-          <div class="headwrap is--adminfunds">
-            <h1 class="heading-2 is--funds">Scholarship</h1>
-            <p class="paragraph-1 is--funds">We provide financial assistance to economically underprivileged students. Highlights: Donation Option Available, Volunteering Option Available.</p>
-            <p class="paragraph-1 is--hero"><span class="greenspan">Funds Available </span>: 1,50,000 INR ( 1 ETH )</p>
-            <div class="buttonwrap is--adminfund">
-              <a href="approve-funds.html" class="button is--1 w-button">Add Funds</a>
-              <a href="#" class="button is--1 w-button">View Approvals</a>
-            </div>
-          </div>
-        </div>
-        <div class="fund">
-          <div class="contentwrap"></div>
-          <div class="headwrap is--adminfunds">
-            <h1 class="heading-2 is--funds">Scholarship</h1>
-            <p class="paragraph-1 is--funds">We provide financial assistance to economically underprivileged students. Highlights: Donation Option Available, Volunteering Option Available.</p>
-            <p class="paragraph-1 is--hero"><span class="greenspan">Funds Available </span>: 1,50,000 INR ( 1 ETH )</p>
-            <div class="buttonwrap is--adminfund">
-              <a href="approve-funds.html" class="button is--1 w-button">Add Funds</a>
-              <a href="#" class="button is--1 w-button">View Approvals</a>
-            </div>
-          </div>
-        </div>
-        <div class="fund">
-          <div class="contentwrap"></div>
-          <div class="headwrap is--adminfunds">
-            <h1 class="heading-2 is--funds">Scholarship</h1>
-            <p class="paragraph-1 is--funds">We provide financial assistance to economically underprivileged students. Highlights: Donation Option Available, Volunteering Option Available.</p>
-            <p class="paragraph-1 is--hero"><span class="greenspan">Funds Available </span>: 1,50,000 INR ( 1 ETH )</p>
-            <div class="buttonwrap is--adminfund">
-              <a href="approve-funds.html" class="button is--1 w-button">Add Funds</a>
-              <a href="#" class="button is--1 w-button">View Approvals</a>
-            </div>
-          </div>
-        </div>
-        <div class="fund">
-          <div class="contentwrap"></div>
-          <div class="headwrap is--adminfunds">
-            <h1 class="heading-2 is--funds">Scholarship</h1>
-            <p class="paragraph-1 is--funds">We provide financial assistance to economically underprivileged students. Highlights: Donation Option Available, Volunteering Option Available.</p>
-            <p class="paragraph-1 is--hero"><span class="greenspan">Funds Available </span>: 1,50,000 INR ( 1 ETH )</p>
-            <div class="buttonwrap is--adminfund">
-              <a href="approve-funds.html" class="button is--1 w-button">Add Funds</a>
-              <a href="#" class="button is--1 w-button">View Approvals</a>
-            </div>
-          </div>
-        </div> -->
+        <!-- TO BE DYNAMICALLY CREATED -->
+        
       </div>
     </div>
   </div>
@@ -169,10 +121,7 @@
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 </body>
 <script type="module">
-  // Import the functions you need from the SDKs you need
-  //import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-  //import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
-  //import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+  
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
   import { getDatabase, set, ref, onValue } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
@@ -246,7 +195,7 @@ onValue(schemesRef, (snapshot) => {
       card.innerHTML = `
         <h1 class="heading-2 is--funds">${scheme.name}</h1>
         <p class="paragraph-1 is--funds">${scheme.description}</p>
-        <p class="paragraph-1 is--funds">Amount: ${scheme.amount}</p>
+        
       `;
       
       // Add the card to the card container

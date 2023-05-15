@@ -93,6 +93,7 @@ p {
 .paragraph-1.is--abt {
   max-width: 80%;
   margin-bottom: 30px;
+  text-align: left;
 }
 
 .paragraph-1.is--regno {
@@ -348,12 +349,15 @@ p {
   width: 550px;
   height: 550px;
   border-radius: 30px;
+  border-style: solid;
   background-color: rgba(0, 63, 60, 0.1);
   display: flex;
   align-items: center;
   flex-direction: column;
   padding: 55px;
-  margin: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  justify-content: space-between;
   
 }
 
