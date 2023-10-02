@@ -91,6 +91,7 @@
 
     <div class="section is--hero wf-section">
         <div class="container w-container">
+          
           <div class="headwrap">
             
             <h1 class="heading-1">View Transactions</h1>
@@ -105,7 +106,11 @@
     <div class="section is--funds wf-section">
         <div class="container w-container">
 
-
+          <div class="searchbar">
+            <label for="search-input">Search:</label>
+            <input type="text" id="search-input" class="text-field"/>
+            <button id="search-button" class="button-search">Search</button>
+          </div>
             <table>
                 <tr>
 
@@ -276,6 +281,35 @@
     } 
 
     displaytransaction();
+
+
+    // Add event listener to the search button
+    const searchButton = document.getElementById("search-button");
+    searchButton.addEventListener("click", () => {
+      const searchTerm = document.getElementById("search-input").value.toLowerCase();
+      filterTableRows(searchTerm);
+    });
+
+    // Function to filter table rows based on search term
+    function filterTableRows(searchTerm) {
+      const rows = transactionTableBody.getElementsByTagName("tr");
+
+      for (const row of rows) {
+        const cells = row.getElementsByTagName("td");
+        let shouldDisplayRow = false;
+
+        for (const cell of cells) {
+          const cellText = cell.innerText.toLowerCase();
+
+          if (cellText.includes(searchTerm)) {
+            shouldDisplayRow = true;
+            break;
+          }
+        }
+
+        row.style.display = shouldDisplayRow ? "" : "none";
+      }
+    }
       
     });
 

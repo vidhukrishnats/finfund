@@ -538,8 +538,16 @@ p {
 .text-field.is--doc {
   display: flex;
   align-items: center;
-  height: 180px;
+  height: auto;
   text-align: center;
+  flex-direction: column;
+}
+
+.uploadwrapper {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .formfieldwrap {
@@ -664,6 +672,10 @@ p {
   border-radius: 30px;
   background-color: transparent;
   
+}
+
+.searchbar{
+  padding: 1rem;
 }
 
 @media screen and (max-width: 991px) {
@@ -991,6 +1003,8 @@ p {
   .paragraph-1.is--abt {
     font-size: 10px;
   }
+
+  
 
   .paragraph-1.is--footer {
     font-size: 12px;

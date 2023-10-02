@@ -81,10 +81,19 @@
                 </select>
                 <label for="documents" class="paragraph-1">Upload <span class="formspan">Documents</span></label>
                 <div class="text-field is--doc w-input">
-                  <input type="file"   name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="document1" required>
-                  <input type="file"   name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="document2" required>
-                  <input type="file"   name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="document3" required>
-                 </div>
+                  <div class="uploadwrapper">
+                    <input type="file"   name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="document1" required>
+                    <p id="progress1">Progress :</p>
+                  </div>
+                  <div class="uploadwrapper">
+                    <input type="file"   name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="document2" required>
+                    <p id="progress3">Progress : </p>
+                  </div>
+                  <div class="uploadwrapper">
+                    <input type="file"   name="name" data-name="Name" placeholder="Drop your files here (PDF,JPG,PNG)" id="document3" required>
+                    <p id="progress2">Progress :</p>
+                  </div>
+                 </div> 
                 
                 <label for="fund-amount" class="paragraph-1">Enter the <span class="formspan">Fund Required</span></label>
                 <input type="text" class="text-field w-input" maxlength="256" name="name-2" data-name="Name 2" placeholder="eg:- 4,00,000 Rs." id="fund_amount">
@@ -228,7 +237,106 @@ onValue(schemesRef, (snapshot) => {
 
 //Fetching documents
 
-import { getStorage, ref as storagereference, uploadBytes, getDownloadURL} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-storage.js"
+// import { getStorage, ref as storagereference, uploadBytes, getDownloadURL} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-storage.js"
+// const form = document.getElementById("fund-request-form");
+// form.addEventListener("submit", (event) => {
+//   event.preventDefault();
+
+//   onAuthStateChanged(auth, (user) => {
+//     if (user) {
+//       const userId = user.uid;
+//       const userEmail = user.email;
+
+//       // Construct the path to the user's wallet address node
+//       const userNodePath = `users/${userId}/walletaddress`;
+
+//       // Get a reference to the user's wallet address node
+//       const walletAddressRef = ref(database, userNodePath);
+
+//       // Read the wallet address from the database
+//       get(walletAddressRef)
+//         .then((snapshot) => {
+//           if (snapshot.exists()) {
+//             const walletAddress = snapshot.val();
+
+//             // Get the form details from the HTML form
+//             const name = document.getElementById("name").value;
+//             const scheme = document.getElementById("select_scheme").value;
+//             const fundAmount = document.getElementById("fund_amount").value;
+//             const document1 = document.getElementById("document1").files[0];
+//             const document2 = document.getElementById("document2").files[0];
+//             const document3 = document.getElementById("document3").files[0];
+
+//             // Create file metadata including the content type
+//             const metadata = {
+//               contentType: "image/jpeg",
+//             };
+
+//             // Upload the documents to Firebase Storage
+//             const document1Ref = storagereference(storage, "documents/" + userId + "/document1.jpg");
+//             const document2Ref = storagereference(storage, "documents/" + userId + "/document2.jpg");
+//             const document3Ref = storagereference(storage, "documents/" + userId + "/document3.jpg");
+
+//             const uploadTask1 = uploadBytes(document1Ref, document1, metadata);
+//             const uploadTask2 = uploadBytes(document2Ref, document2, metadata);
+//             const uploadTask3 = uploadBytes(document3Ref, document3, metadata);
+
+//             // Store the form details and user details in the Firebase Realtime Database
+//             const requestsRef = ref(database, "requests");
+//             const newRequestRef = push(requestsRef);
+
+//             set(newRequestRef, {
+//               userId: userId,
+//               userEmail: userEmail,
+//               walletAddress: walletAddress,
+//               name: name,
+//               scheme: scheme,
+//               fundAmount: fundAmount,
+//               document1Url: "",
+//               document2Url: "",
+//               document3Url: "",
+//               requestStatus: "Pending",
+//             });
+
+//             uploadTask1.then((snapshot) => {
+//               getDownloadURL(snapshot.ref).then((url) => {
+//                 update(newRequestRef, {
+//                   document1Url: url,
+//                 });
+//               });
+//             });
+
+//             uploadTask2.then((snapshot) => {
+//               getDownloadURL(snapshot.ref).then((url) => {
+//                 update(newRequestRef, {
+//                   document2Url: url,
+//                 });
+//               });
+//             });
+
+//             uploadTask3.then((snapshot) => {
+//               getDownloadURL(snapshot.ref).then((url) => {
+//                 update(newRequestRef, {
+//                   document3Url: url,
+//                 });
+//               });
+//             });
+//           } else {
+//             console.log("Wallet address not found for the user.");
+//           }
+//         })
+//         .catch((error) => {
+//           console.error("Error:", error);
+//         });
+//     }
+//   });
+
+//   alert('Your request has been submitted for approval!');
+// });
+
+
+import { getStorage, ref as storagereference, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-storage.js"
+
 const form = document.getElementById("fund-request-form");
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -263,14 +371,30 @@ form.addEventListener("submit", (event) => {
               contentType: "image/jpeg",
             };
 
-            // Upload the documents to Firebase Storage
+            // Upload the documents to Firebase Storage with progress tracking
             const document1Ref = storagereference(storage, "documents/" + userId + "/document1.jpg");
             const document2Ref = storagereference(storage, "documents/" + userId + "/document2.jpg");
             const document3Ref = storagereference(storage, "documents/" + userId + "/document3.jpg");
 
-            const uploadTask1 = uploadBytes(document1Ref, document1, metadata);
-            const uploadTask2 = uploadBytes(document2Ref, document2, metadata);
-            const uploadTask3 = uploadBytes(document3Ref, document3, metadata);
+            const uploadTask1 = uploadBytesResumable(document1Ref, document1, metadata);
+            const uploadTask2 = uploadBytesResumable(document2Ref, document2, metadata);
+            const uploadTask3 = uploadBytesResumable(document3Ref, document3, metadata);
+
+            // Listen for upload progress events
+            uploadTask1.on("state_changed", (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              document.getElementById("progress2").innerHTML="Document 3 Upload Progress: " + progress + "%";
+            });
+
+            uploadTask2.on("state_changed", (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              document.getElementById("progress2").innerHTML="Document 3 Upload Progress: " + progress + "%";
+            });
+
+            uploadTask3.on("state_changed", (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              document.getElementById("progress2").innerHTML="Document 3 Upload Progress: " + progress + "%";
+            });
 
             // Store the form details and user details in the Firebase Realtime Database
             const requestsRef = ref(database, "requests");
@@ -324,6 +448,7 @@ form.addEventListener("submit", (event) => {
 
   alert('Your request has been submitted for approval!');
 });
+
 
 
 </script>
